@@ -1,0 +1,19 @@
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: codebase-investigator:local
+    ports:
+      - "${HOST_PORT:-8000}:8000"
+    environment:
+      OPENAI_API_KEY: ${OPENAI_API_KEY}
+      OPENAI_MODEL: ${OPENAI_MODEL:-gpt-5.5}
+      OPENAI_AUDIT_MODEL: ${OPENAI_AUDIT_MODEL:-gpt-5.4-mini}
+      SESSION_ROOT: ${SESSION_ROOT:-/app/.investigator/sessions}
+    volumes:
+      - investigator_sessions:/app/.investigator
+    restart: unless-stopped
+
+volumes:
+  investigator_sessions:

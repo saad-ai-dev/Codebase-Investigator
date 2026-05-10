@@ -1,0 +1,15 @@
+.git
+.github
+.gitignore
+.husky
+.investigator
+.ruff_cache
+.venv
+__pycache__
+*.pyc
+*.pyo
+*.pyd
+.pytest_cache
+node_modules
+tests
+tmp

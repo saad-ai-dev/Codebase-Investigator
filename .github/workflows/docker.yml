@@ -1,0 +1,39 @@
+name: Docker
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  docker:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Build Docker image
+        run: docker build -t codebase-investigator:ci .
+
+      - name: Start container
+        run: |
+          docker run -d --name codebase-investigator \
+            -p 8000:8000 \
+            -e OPENAI_API_KEY=dummy_key \
+            codebase-investigator:ci
+
+      - name: Wait for health endpoint
+        run: |
+          for i in $(seq 1 20); do
+            if curl -fsS http://127.0.0.1:8000/api/health >/dev/null; then
+              exit 0
+            fi
+            sleep 2
+          done
+          docker logs codebase-investigator
+          exit 1
+
+      - name: Stop container
+        if: always()
+        run: docker rm -f codebase-investigator

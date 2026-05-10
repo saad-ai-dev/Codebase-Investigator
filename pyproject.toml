@@ -1,0 +1,45 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "codebase-investigator"
+version = "0.1.0"
+description = "Grounded GitHub codebase investigation with independent audits."
+requires-python = ">=3.10"
+dependencies = []
+
+[project.optional-dependencies]
+dev = [
+  "pre-commit>=3.7.1",
+  "ruff>=0.6.9"
+]
+
+[project.scripts]
+codebase-investigator = "cli:main"
+
+[tool.setuptools]
+package-dir = {"" = "src"}
+py-modules = [
+  "audit",
+  "cli",
+  "engine",
+  "github",
+  "models",
+  "openai_client",
+  "prompts",
+  "repository",
+  "session",
+  "webapp",
+]
+
+[tool.ruff]
+line-length = 100
+target-version = "py310"
+src = ["src", "tests"]
+
+[tool.ruff.lint]
+select = ["B", "E", "F", "I", "UP"]
+
+[tool.ruff.format]
+quote-style = "double"

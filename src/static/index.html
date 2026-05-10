@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Codebase Investigator</title>
+    <link rel="stylesheet" href="/app.css" />
+  </head>
+  <body>
+    <div class="app-shell">
+      <header class="app-header">
+        <div class="brand-mark">CI</div>
+        <div class="brand-copy">
+          <p class="eyebrow">Grounded Code Review</p>
+          <h1>Codebase Investigator</h1>
+          <p class="subtitle">
+            Ask plain-English questions about a public GitHub repository and get answers backed by
+            code citations, verification, and a separate audit.
+          </p>
+        </div>
+      </header>
+
+      <section class="intake-bar">
+        <form id="session-form" class="session-form">
+          <label for="repo-url">Public GitHub URL</label>
+          <div class="input-row">
+            <input
+              id="repo-url"
+              name="repo-url"
+              type="url"
+              placeholder="https://github.com/owner/repo"
+              autocomplete="off"
+              required
+            />
+            <button id="start-session-button" type="submit">Open Repository</button>
+          </div>
+          <div id="session-feedback" class="feedback" aria-live="polite"></div>
+        </form>
+
+        <div class="sample-prompts">
+          <button
+            class="ghost-chip sample-question"
+            data-question="How does auth work here, and what would you change about it?"
+          >
+            Auth review
+          </button>
+          <button
+            class="ghost-chip sample-question"
+            data-question="This signup flow feels off. Walk me through it and flag anything risky."
+          >
+            Flow risk review
+          </button>
+          <button
+            class="ghost-chip sample-question"
+            data-question="Is there dead code here? What is safe to delete?"
+          >
+            Dead code review
+          </button>
+        </div>
+      </section>
+
+      <main class="main-column">
+        <section id="session-overview" class="session-overview empty-state">
+          Paste a repository URL to start the investigation.
+        </section>
+
+        <section class="thread-shell">
+          <div class="thread-header">
+            <div>
+              <p class="eyebrow">Conversation</p>
+              <h2>Investigation Thread</h2>
+            </div>
+            <span id="busy-pill" class="pill hidden">Working</span>
+          </div>
+
+          <div id="conversation-feed" class="conversation-feed empty-state">
+            Open a repository, then ask a question. Each answer will include the result,
+            verification status, and attached evidence.
+          </div>
+
+          <form id="question-form" class="composer" autocomplete="off">
+            <label for="question-input">Question</label>
+            <textarea
+              id="question-input"
+              rows="4"
+              placeholder="Walk me through this service. Skip the obvious."
+              disabled
+            ></textarea>
+            <div class="composer-actions">
+              <p class="hint">
+                Ask follow-ups directly in the same thread. Press Enter to submit and Shift+Enter
+                for a new line.
+              </p>
+              <button id="ask-button" type="submit" disabled>Submit Question</button>
+            </div>
+          </form>
+        </section>
+      </main>
+    </div>
+
+    <script src="/app.js" defer></script>
+  </body>
+</html>

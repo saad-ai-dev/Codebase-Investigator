@@ -1,0 +1,38 @@
+repos:
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: v0.11.10
+    hooks:
+      - id: ruff-check
+        args: [--fix]
+      - id: ruff-format
+
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v5.0.0
+    hooks:
+      - id: check-ast
+      - id: check-json
+      - id: check-toml
+      - id: check-yaml
+      - id: check-merge-conflict
+      - id: debug-statements
+      - id: detect-private-key
+      - id: end-of-file-fixer
+      - id: trailing-whitespace
+
+  - repo: local
+    hooks:
+      - id: compileall
+        name: compileall
+        entry: python3 -m compileall src tests
+        language: system
+        pass_filenames: false
+      - id: docker-build
+        name: docker-build
+        entry: scripts/check-docker-build.sh
+        language: system
+        pass_filenames: false
+      - id: unit-tests
+        name: unit-tests
+        entry: python3 -m unittest discover -s tests
+        language: system
+        pass_filenames: false
