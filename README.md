@@ -133,12 +133,15 @@ The application uses these environment variables:
 - `OPENAI_AUDIT_MODEL`
   Optional. Default: `gpt-5.4-mini`
 - `SESSION_ROOT`
-  Optional. Default local value: `.investigator/sessions`
-  Default Docker value: `/app/.investigator/sessions`
+  Optional. Default value: `.investigator/sessions`
 - `HOST_PORT`
   Optional for Docker Compose. Default: `8000`
 
 An example environment file is provided in [.env.example](.env.example).
+
+For local CLI and web runs, the app will automatically read `.env` from the repo root if it exists. Shell environment variables still take precedence over values from the file.
+
+Use a local-safe `SESSION_ROOT` such as `.investigator/sessions`. Do not point local runs at `/app/...` unless you are actually inside the Docker container.
 
 ### Local installation
 
@@ -148,7 +151,19 @@ Install the package and development dependencies:
 python3 -m pip install -e .[dev]
 ```
 
-Export the required API key:
+Create a local environment file:
+
+```bash
+cp .env.example .env
+```
+
+Set the required API key in `.env`:
+
+```text
+OPENAI_API_KEY=your_key_here
+```
+
+You can still export variables in the shell if you want them to override `.env`:
 
 ```bash
 export OPENAI_API_KEY=your_key_here

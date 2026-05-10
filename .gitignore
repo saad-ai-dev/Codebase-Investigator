@@ -9,6 +9,8 @@ htmlcov/
 .venv/
 venv/
 .investigator/
+.run/
+logs/
 .env
 .env.local
 .DS_Store

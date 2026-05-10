@@ -1,9 +1,11 @@
 from __future__ import annotations
 
 import argparse
+import os
 from pathlib import Path
 
 from engine import CodebaseInvestigator, format_turn
+from env import load_dotenv
 from openai_client import OpenAIClientError, OpenAIResponsesClient
 from session import SessionStore
 from webapp import serve
@@ -15,11 +17,19 @@ def build_parser() -> argparse.ArgumentParser:
     )
     parser.add_argument(
         "--session-root",
-        default=".investigator/sessions",
+        default=os.getenv("SESSION_ROOT", ".investigator/sessions"),
         help="Directory where investigation sessions are stored.",
     )
-    parser.add_argument("--model", default="gpt-5.5", help="Answering model.")
-    parser.add_argument("--audit-model", default="gpt-5.4-mini", help="Independent audit model.")
+    parser.add_argument(
+        "--model",
+        default=os.getenv("OPENAI_MODEL", "gpt-5.5"),
+        help="Answering model.",
+    )
+    parser.add_argument(
+        "--audit-model",
+        default=os.getenv("OPENAI_AUDIT_MODEL", "gpt-5.4-mini"),
+        help="Independent audit model.",
+    )
 
     subparsers = parser.add_subparsers(dest="command", required=True)
 
@@ -38,6 +48,7 @@ def build_parser() -> argparse.ArgumentParser:
 
 
 def main(argv: list[str] | None = None) -> int:
+    load_dotenv()
     parser = build_parser()
     args = parser.parse_args(argv)
 
